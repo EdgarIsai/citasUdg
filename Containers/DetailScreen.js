@@ -1,9 +1,10 @@
 // In App.js in a new project
 
 import React, { useState, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+
 import CalendarPicker from "react-native-calendar-picker";
 import { useSelector, useDispatch } from "react-redux";
+import { setResponse } from "../Reducers/requestReducer";
 
 import { Button, View, Text } from "react-native";
 import { Picker } from "react-native";
@@ -33,13 +34,14 @@ function DetailsScreen({ route, navigation }) {
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedTime, setSelectedTime] = useState("10:00");
 
-	url = `https://cuceimobile.tech/Escuela/datosudeg.php?codigo=${user}&nip=${password}`;
+	const dispatch = useDispatch();
 
-	const onDateChange = date => {
+	url = `https://cuceimobile.tech/Escuela/datosudeg.php?codigo=${user}&nip=${password}`;
+	const changeDate = date => {
 		setSelectedDate(date);
 	};
 
-	const agendar = () => {
+	const agendar = dispatch => {
 		if (responseState.split(",").length > 0) {
 			[
 				calendario,
@@ -49,19 +51,47 @@ function DetailsScreen({ route, navigation }) {
 				carrera,
 			] = responseState.split(",");
 		}
+		const months = [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		];
+		const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+		const dia = new Date(selectedDate);
 		console.log(
-			`
-    El inge escogio la fecha ${startDate}
-    Calendario: ${calendario} 
-    Codigo: ${codigo}
-    Nombre: ${nombre}
-    Plantel: ${plantel} 
-	Carrera: ${carrera}
-	Hora: ${selectedTime}
-    `
+			days[dia.getDay()],
+			selectedTime,
+			months[dia.getMonth()],
+			dia.getDate()
 		);
+		axios
+			.get(
+				`https://eiscprograparainternet.000webhostapp.com/AltasCitas.php?diasemana=${
+					days[dia.getDay()]
+				}&mes=${
+					months[dia.getMonth()]
+				}&dia=${dia.getDate()}&hora=${selectedTime}&codigo=${codigo}&nombre=${nombre}&carrera=${carrera}`
+			)
+			.then(response => {
+				response.data;
+			})
+			.catch(err => {
+				console.log(err);
+				throw err;
+			});
+		dispatch(setResponse(""));
 	};
 
+	let codi = useSelector(selectCodigo);
 	let startDate = selectedDate ? selectedDate.toString() : "";
 	startDate = startDate.split(" ").slice(0, 4).join(" ");
 
@@ -75,11 +105,8 @@ function DetailsScreen({ route, navigation }) {
 	return (
 		<View
 			style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<CalendarPicker
-				onDateChange={onDateChange}
-				selectedRangeEndStyle={() => null}
-			/>
-			<Button onPress={agendar} title="Agendar" />
+			<CalendarPicker onDateChange={date => setSelectedDate(date)} />
+			<Button onPress={agendar.bind(this, dispatch)} title="Agendar" />
 			<View>
 				<Text>SELECTED DATE:{startDate}</Text>
 			</View>
@@ -101,7 +128,10 @@ function DetailsScreen({ route, navigation }) {
 				<Picker.Item label="19:00" value="19:00" />
 				<Picker.Item label="20:00" value="20:00" />
 			</Picker>
-			<Text>{responseState}</Text>
+			<Text>
+				{responseState}
+				{codi}
+			</Text>
 		</View>
 	);
 }

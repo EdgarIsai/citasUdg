@@ -1,7 +1,8 @@
 // In App.js in a new project
 
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { setCodigo } from "../Reducers/userReducer";
 import udgIcon from "../Images/udg.png";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,6 +12,7 @@ import { Button, View, Text, TextInput, Image } from "react-native";
 function HomeScreen({ navigation }) {
 	const [usuarioState, setUsuarioState] = useState("");
 	const [contrasenaState, setContrasenaState] = useState("");
+	const dispatch = useDispatch();
 	return (
 		<View
 			style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -39,12 +41,13 @@ function HomeScreen({ navigation }) {
 			/>
 			<Button
 				title="Entrar"
-				onPress={() =>
+				onPress={() => {
+					dispatch(setCodigo(usuarioState));
 					navigation.navigate("Details", {
 						user: usuarioState,
 						password: contrasenaState,
-					})
-				}
+					});
+				}}
 			/>
 		</View>
 	);
