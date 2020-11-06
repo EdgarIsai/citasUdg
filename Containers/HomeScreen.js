@@ -10,47 +10,46 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Button, View, Text, TextInput, Image } from "react-native";
 
 function HomeScreen({ navigation }) {
-	const [usuarioState, setUsuarioState] = useState("");
-	const [contrasenaState, setContrasenaState] = useState("");
-	const dispatch = useDispatch();
-	return (
-		<View
-			style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Image source={udgIcon} style={{ height: 80, width: 50 }} />
-			<Text>Codigo</Text>
-			<TextInput
-				style={{
-					height: 40,
-					borderColor: "gray",
-					borderWidth: 1,
-					width: 100,
-				}}
-				keyboardType="phone-pad"
-				onChangeText={text => setUsuarioState(text)}
-			/>
-			<Text>Nip</Text>
-			<TextInput
-				style={{
-					height: 40,
-					borderColor: "gray",
-					borderWidth: 1,
-					width: 100,
-				}}
-				secureTextEntry={true}
-				onChangeText={text => setContrasenaState(text)}
-			/>
-			<Button
-				title="Entrar"
-				onPress={() => {
-					dispatch(setCodigo(usuarioState));
-					navigation.navigate("Details", {
-						user: usuarioState,
-						password: contrasenaState,
-					});
-				}}
-			/>
-		</View>
-	);
+  const [usuarioState, setUsuarioState] = useState("");
+  const [contrasenaState, setContrasenaState] = useState("");
+  const dispatch = useDispatch();
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Image source={udgIcon} style={{ height: 80, width: 50 }} />
+      <Text>Codigo</Text>
+      <TextInput
+        style={{
+          height: 40,
+          borderColor: "gray",
+          borderWidth: 1,
+          width: 100,
+        }}
+        keyboardType="phone-pad"
+        onChangeText={(text) => setUsuarioState(text)}
+      />
+      <Text>Nip</Text>
+      <TextInput
+        style={{
+          height: 40,
+          borderColor: "gray",
+          borderWidth: 1,
+          width: 100,
+        }}
+        secureTextEntry={true}
+        onChangeText={(text) => setContrasenaState(text)}
+      />
+      <Button
+        title="Entrar"
+        onPress={() => {
+          dispatch(setCodigo(usuarioState));
+          navigation.navigate("Details", {
+            user: usuarioState,
+            password: contrasenaState,
+          });
+        }}
+      />
+    </View>
+  );
 }
 
 export default HomeScreen;
