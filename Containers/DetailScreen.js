@@ -10,7 +10,7 @@ import { Button, View, Text } from "react-native";
 import { Picker } from "react-native"; // *! Deprecated
 import axios from "axios";
 
-import { setAuth, selectUser } from "../Reducers/userReducer";
+import { setAuth, selectUser, setUser } from "../Reducers/userReducer";
 import { selectRequests } from "../Reducers/requestReducer";
 import { selectCalendar, setHora, setFecha } from "../Reducers/calendarReducer";
 
@@ -59,10 +59,10 @@ function DetailsScreen({ route, navigation }) {
   url = ``;
 
   const agendar = (dispatch) => {
-    // * Parse the query response and retrieve  proper parameters
-    if (userInfo.auth.split(",").length > 0) {
-      [calendario, codigo, nombre, plantel, carrera] = userInfo.auth.split(",");
-    }
+    // // * Parse the query response and retrieve  proper parameters
+    // if (userInfo.auth.split(",").length > 0) {
+    //   [calendario, codigo, nombre, plantel, carrera] = userInfo.auth.split(",");
+    // }
 
     const months = [
       "Jan",
@@ -113,6 +113,17 @@ function DetailsScreen({ route, navigation }) {
     nombre,
     plantel,
     carrera = "";
+  if (userInfo.auth.length > 0) {
+    [calendario, codigo, nombre, plantel, carrera] = userInfo.auth.split(",");
+    dispatch(
+      setUser({
+        nombre: nombre,
+        calendario: calendario,
+        plantel: plantel,
+        carrera: carrera,
+      })
+    );
+  }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

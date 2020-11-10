@@ -9,6 +9,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Button, View, Text, TextInput, Image } from "react-native";
 
+import { setCitas, setAgendar } from "../Reducers/navigationReducer";
+
 function HomeScreen({ navigation }) {
   const [usuarioState, setUsuarioState] = useState("");
   const [contrasenaState, setContrasenaState] = useState("");
@@ -42,6 +44,7 @@ function HomeScreen({ navigation }) {
         title="Entrar"
         onPress={() => {
           dispatch(setCodigo(usuarioState));
+          dispatch(setAgendar(true));
           navigation.navigate("Details", {
             user: usuarioState,
             password: contrasenaState,

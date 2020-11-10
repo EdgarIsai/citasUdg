@@ -45,12 +45,12 @@ const Citas = (props) => {
     axios.get(allCitas + `?codigo=${codigo}`).then((response) => {
       if (JSON.stringify(res) !== JSON.stringify(response.data)) {
         dispatch(setResponse(response.data));
+        console.log(userInfo);
       }
       return response.data;
     });
   }
-  // console.log(res);
-  console.log(props);
+
   return (
     <ScrollView>
       {res.length > 1 ? (

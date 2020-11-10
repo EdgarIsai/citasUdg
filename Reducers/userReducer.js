@@ -5,19 +5,28 @@ export const slice = createSlice({
   initialState: {
     codigo: "",
     auth: "",
+    nombre: "",
+    carrera: "",
+    calendario: "",
+    plantel: "",
   },
   reducers: {
     setCodigo: (state, action) => {
-      console.log(action.payload);
       state.codigo = action.payload;
     },
     setAuth: (state, action) => {
       state.auth = action.payload;
     },
+    setUser: (state, action) => {
+      state.nombre = action.payload.nombre;
+      state.carrera = action.payload.carrera;
+      state.calendario = action.payload.calendario;
+      state.plantel = action.payload.plantel;
+    },
   },
 });
 
-export const { setCodigo, setAuth } = slice.actions;
+export const { setCodigo, setAuth, setUser } = slice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This

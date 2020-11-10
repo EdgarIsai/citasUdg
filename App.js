@@ -9,7 +9,10 @@ import CitasScreen from "./Containers/Citas";
 import store from "./Store/Store";
 import { Provider } from "react-redux";
 
-import { NavigationContainer, Text } from "@react-navigation/native";
+import { selectUser } from "./Reducers/userReducer";
+
+import { Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   createDrawerNavigator,
   DrawerItemList,
@@ -23,8 +26,10 @@ const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent({ navigation }, props) {
   const navi = useSelector(selectNavigation);
+  const user = useSelector(selectUser);
+  console.log(user);
   const dispatch = useDispatch();
-  return (
+  let sideBar = (
     <DrawerContentScrollView {...props}>
       <DrawerItem
         label="Agendar"
@@ -33,17 +38,33 @@ function CustomDrawerContent({ navigation }, props) {
           return navigation.navigate("Details");
         }}
       />
-      <DrawerItem
-        label="Citas"
-        onPress={() => {
-          dispatch(setAgendar(false));
-          console.log(navi);
-          return navigation.navigate("Citas");
-        }}
-      />
-      {navi.agendar ? <DrawerItem label="Perra" /> : null}
+      <Text>{user.nombre}</Text>
+      <Text>Codigo: {user.codigo}</Text>
+      <Text>Plantel: {user.plantel}</Text>
+      <Text>Carrera: {user.carrera}</Text>
+      <Text>Calendario: {user.calendario}</Text>
     </DrawerContentScrollView>
   );
+  if (navi.agendar) {
+    sideBar = (
+      <DrawerContentScrollView {...props}>
+        <DrawerItem
+          label="Citas"
+          onPress={() => {
+            dispatch(setAgendar(false));
+            return navigation.navigate("Citas");
+          }}
+        />
+        <Text>{user.nombre}</Text>
+        <Text>Codigo: {user.codigo}</Text>
+        <Text>Plantel: {user.plantel}</Text>
+        <Text>Carrera: {user.carrera}</Text>
+        <Text>Calendario: {user.calendario}</Text>
+      </DrawerContentScrollView>
+    );
+  }
+
+  return sideBar;
 }
 
 function App() {
