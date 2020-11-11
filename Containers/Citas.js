@@ -1,27 +1,25 @@
 import React, { useEffect } from "react";
-import axios from "axios";
+import { View, Button, Text, StyleSheet, ScrollView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+// * User Reducer
 import { selectCodigo, selectUser } from "../Reducers/userReducer";
+// * Request reducer
 import {
   selectAllCitas,
   selectResponse,
   setResponse,
   selectBorrarCita,
 } from "../Reducers/requestReducer";
-import {
-  setCitas,
-  setAgendar,
-  selectNavigation,
-} from "../Reducers/navigationReducer";
-
-import { View, Button, Text, StyleSheet, ScrollView } from "react-native";
+// * Navigation reducer
+import { selectNavigation } from "../Reducers/navigationReducer";
 
 const borrarCita = (url, mes, dia, hora, codigo, dispatch, allCitas) => {
   axios
-    // borra la cita
+    // * borra la cita
     .get(`${url}?mes=${mes}&dia=${dia}&hora=${hora}&codigo=${codigo}`)
     .then((res) => {
-      // Actualiza la store con todas las citas menos la eliminada
+      // * Actualiza la store con todas las citas menos la eliminada
       axios.get(allCitas + `?codigo=${codigo}`).then((response) => {
         if (JSON.stringify(res) !== JSON.stringify(response.data)) {
           dispatch(setResponse(response.data));

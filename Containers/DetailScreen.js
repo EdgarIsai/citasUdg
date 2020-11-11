@@ -2,33 +2,26 @@
 
 import React, { useEffect } from "react";
 
-import CalendarPicker from "react-native-calendar-picker";
-import { useSelector, useDispatch } from "react-redux";
-import { setResponse } from "../Reducers/requestReducer";
-
 import { Button, View, Text } from "react-native";
 import { Picker } from "react-native"; // *! Deprecated
+
 import axios from "axios";
+import CalendarPicker from "react-native-calendar-picker";
 
-import { setAuth, selectUser, setUser } from "../Reducers/userReducer";
+import { useSelector, useDispatch } from "react-redux";
+// * Request Reducer
+import { setResponse } from "../Reducers/requestReducer";
 import { selectRequests } from "../Reducers/requestReducer";
+// * User Reducer
+import { setAuth, selectUser, setUser } from "../Reducers/userReducer";
+// * Calendar Reducer
 import { selectCalendar, setHora, setFecha } from "../Reducers/calendarReducer";
-
-import {
-  setCitas,
-  setAgendar,
-  selectNavigation,
-} from "../Reducers/navigationReducer";
+// * Navigation Reducer
+import { selectNavigation } from "../Reducers/navigationReducer";
 
 function DetailsScreen({ route, navigation }) {
   useEffect(() => {
-    const test = {
-      params: {
-        codigo: user,
-        nip: password,
-      },
-    };
-    // * Query the user info only when needed
+    // * Query the user info only when the component mounts
     axios
       .get(requests.datosUdg, {
         params: {
@@ -54,16 +47,7 @@ function DetailsScreen({ route, navigation }) {
 
   const naviInfo = useSelector(selectNavigation);
 
-  console.log(naviInfo);
-  console.log(requests);
-  url = ``;
-
   const agendar = (dispatch) => {
-    // // * Parse the query response and retrieve  proper parameters
-    // if (userInfo.auth.split(",").length > 0) {
-    //   [calendario, codigo, nombre, plantel, carrera] = userInfo.auth.split(",");
-    // }
-
     const months = [
       "Jan",
       "Feb",
@@ -113,6 +97,7 @@ function DetailsScreen({ route, navigation }) {
     nombre,
     plantel,
     carrera = "";
+  // * Dispatches user info if any
   if (userInfo.auth.length > 0) {
     [calendario, codigo, nombre, plantel, carrera] = userInfo.auth.split(",");
     dispatch(

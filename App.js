@@ -1,6 +1,7 @@
 // In App.js in a new project
 
 import * as React from "react";
+import { Text } from "react-native";
 
 import HomeScreen from "./Containers/HomeScreen";
 import DetailScreen from "./Containers/DetailScreen";
@@ -9,19 +10,19 @@ import CitasScreen from "./Containers/Citas";
 import store from "./Store/Store";
 import { Provider } from "react-redux";
 
-import { selectUser } from "./Reducers/userReducer";
-
-import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createDrawerNavigator,
-  DrawerItemList,
   DrawerContentScrollView,
   DrawerItem,
 } from "@react-navigation/drawer";
 
 import { useSelector, useDispatch } from "react-redux";
+// * User Reducer
+import { selectUser } from "./Reducers/userReducer";
+// * Navigation Reducer
 import { setAgendar, selectNavigation } from "./Reducers/navigationReducer";
+
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent({ navigation }, props) {
@@ -29,6 +30,7 @@ function CustomDrawerContent({ navigation }, props) {
   const user = useSelector(selectUser);
   console.log(user);
   const dispatch = useDispatch();
+
   let sideBar = (
     <DrawerContentScrollView {...props}>
       <DrawerItem
@@ -45,6 +47,7 @@ function CustomDrawerContent({ navigation }, props) {
       <Text>Calendario: {user.calendario}</Text>
     </DrawerContentScrollView>
   );
+
   if (navi.agendar) {
     sideBar = (
       <DrawerContentScrollView {...props}>
