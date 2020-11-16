@@ -23,6 +23,8 @@ import { selectUser } from "./Reducers/userReducer";
 // * Navigation Reducer
 import { setAgendar, selectNavigation } from "./Reducers/navigationReducer";
 
+import Editar from "./Components/Editar";
+
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent({ navigation }, props) {
@@ -88,6 +90,7 @@ function App() {
           />
           <Drawer.Screen name="Details" component={DetailScreen} />
           <Drawer.Screen name="Citas" component={CitasScreen} />
+          <Drawer.Screen name="Editar" component={Editar} />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>

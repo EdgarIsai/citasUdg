@@ -10,6 +10,8 @@ export const slice = createSlice({
     allCitas: "https://eiscprograparainternet.000webhostapp.com/VerCitas.php",
     borrarCita:
       "https://eiscprograparainternet.000webhostapp.com/BajasCitas.php",
+    editarCita:
+      "https://eiscprograparainternet.000webhostapp.com/editarCita.php",
     response: "",
   },
   reducers: {
@@ -32,6 +34,7 @@ export const { setResponse } = slice.actions;
 export const selectAllCitas = (state) => state.request.allCitas;
 export const selectResponse = (state) => state.request.response;
 export const selectBorrarCita = (state) => state.request.borrarCita;
+export const selectEditarCita = (state) => state.request.editarCita;
 export const selectRequests = (state) => state.request;
 
 export default slice.reducer;

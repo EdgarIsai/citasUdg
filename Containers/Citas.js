@@ -29,7 +29,7 @@ const borrarCita = (url, mes, dia, hora, codigo, dispatch, allCitas) => {
     });
 };
 
-const Citas = (props) => {
+const Citas = ({ navigation }) => {
   const dispatch = useDispatch();
   const codigo = useSelector(selectCodigo);
   const allCitas = useSelector(selectAllCitas);
@@ -74,6 +74,18 @@ const Citas = (props) => {
                     allCitas
                   )
                 }
+              />
+              <Button
+                title="Editar"
+                onPress={() => {
+                  navigation.navigate("Editar", {
+                    hora: cita.Hora,
+                    diaSemana: cita.DiaSemana,
+                    dia: cita.Dia,
+                    mes: cita.Mes,
+                    codigo: cita.Codigo,
+                  });
+                }}
               />
             </View>
           );
