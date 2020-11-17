@@ -1,6 +1,6 @@
 // In App.js in a new project
 
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Button, View, Text } from "react-native";
 import { Picker } from "react-native"; // *! Deprecated
@@ -13,26 +13,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { setResponse } from "../Reducers/requestReducer";
 import { selectRequests } from "../Reducers/requestReducer";
 // * User Reducer
-import { setAuth, selectUser } from "../Reducers/userReducer";
 // * Calendar Reducer
 import { selectCalendar, setHora, setFecha } from "../Reducers/calendarReducer";
 // * Navigation Reducer
 import { selectNavigation } from "../Reducers/navigationReducer";
 
 function Editar({ route, navigation }) {
-  useEffect(() => {
-    // * Query the user info only when the component mounts
-  }, []);
-
   const { hora, dia, diaSemana, mes, codigo } = route.params;
 
   const dispatch = useDispatch();
   const requests = useSelector(selectRequests);
   const calendarInfo = useSelector(selectCalendar);
 
-  const naviInfo = useSelector(selectNavigation);
-
   const agendar = (dispatch) => {
+    // * Function expression to modify the selected appointment
     const months = [
       "Jan",
       "Feb",
@@ -50,7 +44,7 @@ function Editar({ route, navigation }) {
 
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const ndia = new Date(calendarInfo.fecha);
-    // * Registers the appointment
+    // * Edits the appointment
     axios
       .get(requests.editarCita, {
         params: {
