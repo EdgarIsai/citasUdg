@@ -14,18 +14,29 @@ import {
 // * Navigation reducer
 import { selectNavigation } from "../Reducers/navigationReducer";
 
-const borrarCita = (url, mes, dia, hora, codigo, dispatch, allCitas) => {
+const borrarCita = (
+  url,
+  mes,
+  dia,
+  hora,
+  codigo,
+  dispatch,
+  allCitas,
+  resState
+) => {
   axios
     // * borra la cita
     .get(`${url}?mes=${mes}&dia=${dia}&hora=${hora}&codigo=${codigo}`)
     .then((res) => {
       // * Actualiza la store con todas las citas menos la eliminada
+
       axios.get(allCitas + `?codigo=${codigo}`).then((response) => {
-        if (JSON.stringify(res) !== JSON.stringify(response.data)) {
+        if (JSON.stringify(resState) !== JSON.stringify(response.data)) {
           dispatch(setResponse(response.data));
         }
-        return response.data;
       });
+
+      return res;
     });
 };
 
@@ -40,6 +51,7 @@ const Citas = ({ navigation }) => {
 
   // * Obtenemos todas las citas
   if (userInfo.auth.length > 1) {
+    console.log(res);
     axios.get(allCitas + `?codigo=${codigo}`).then((response) => {
       if (JSON.stringify(res) !== JSON.stringify(response.data)) {
         dispatch(setResponse(response.data));
@@ -51,7 +63,7 @@ const Citas = ({ navigation }) => {
 
   return (
     <ScrollView>
-      {res.length > 1 ? (
+      {res.length > 0 ? (
         res.map((cita, index) => {
           return (
             <View style={styles.cita} key={index}>
@@ -71,7 +83,8 @@ const Citas = ({ navigation }) => {
                     cita.Hora,
                     cita.Codigo,
                     dispatch,
-                    allCitas
+                    allCitas,
+                    res
                   )
                 }
               />

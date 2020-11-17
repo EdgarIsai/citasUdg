@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setResponse } from "../Reducers/requestReducer";
 import { selectRequests } from "../Reducers/requestReducer";
 // * User Reducer
-import { setAuth, selectUser, setUser } from "../Reducers/userReducer";
+import { setAuth, selectUser } from "../Reducers/userReducer";
 // * Calendar Reducer
 import { selectCalendar, setHora, setFecha } from "../Reducers/calendarReducer";
 // * Navigation Reducer
@@ -67,6 +67,8 @@ function Editar({ route, navigation }) {
       })
       .then((response) => {
         console.log(response.data);
+        dispatch(setResponse(""));
+        navigation.navigate("Citas");
       })
       .catch(function (error) {
         console.log(error);
@@ -79,6 +81,7 @@ function Editar({ route, navigation }) {
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Editar Cita del {`${diaSemana} ${dia} ${mes}`}</Text>
       <View>
         <CalendarPicker
           onDateChange={(date) => dispatch(setFecha(date.toString()))}
