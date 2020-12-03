@@ -12,6 +12,10 @@ export const slice = createSlice({
       "https://eiscprograparainternet.000webhostapp.com/BajasCitas.php",
     editarCita:
       "https://eiscprograparainternet.000webhostapp.com/editarCita.php",
+    getNotificaciones:
+      "https://eiscprograparainternet.000webhostapp.com/verNot.php",
+    tronarNotificaciones:
+      "https://eiscprograparainternet.000webhostapp.com/borrrarNofit.php",
     response: "",
   },
   reducers: {

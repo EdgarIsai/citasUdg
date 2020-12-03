@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 
-import { Button, View, Text } from "react-native";
+import { Button, View, Text, Alert } from "react-native";
 import { Picker } from "react-native"; // *! Deprecated
 
 import axios from "axios";
@@ -36,6 +36,23 @@ function DetailsScreen({ route, navigation }) {
         console.log(error);
         throw error;
       });
+    axios
+      .get(requests.getNotificaciones + `?codigo=${user}`)
+      .then((response) => {
+        const data = response.data;
+        if (data.length > 0) {
+          data.map((notif) => {
+            Alert.alert("Notif", notif.Mensaje);
+          });
+          axios
+            .get(requests.tronarNotificaciones + `?codigo=${user}`)
+            .then((response) => {
+              console.log(2);
+            })
+            .catch((err) => console.log(user));
+        }
+      })
+      .catch((err) => console.log(err));
   }, [route.params]);
 
   const { user, password } = route.params;
